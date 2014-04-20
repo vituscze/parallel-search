@@ -16,6 +16,7 @@ alloc_queue(int capacity)
 	    , PTHREAD_COND_INITIALIZER
 	    };
 	q.data = malloc(sizeof(void *) * capacity);
+	return (q);
 }
 
 void
