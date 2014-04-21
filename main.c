@@ -1,3 +1,4 @@
+#include <pthread.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -5,47 +6,31 @@
 #include "consumer.h"
 #include "kmp.h"
 #include "queue.h"
+#include "producer.h"
 
 int
 main(int argc, char **argv)
 {
-	char str[] = "void *arg_";
+	char str[] = "char *";
 
 	struct kmp_table table = alloc_table(str);
 	fill_table(table);
 
-	/*
-	int i;
-	for (i = 0; i < table.str_size; i++) {
-		printf("%c %d\n", table.str[i], table.err[i]);
-	}
-
-	const char *str2 = "LOLOLALOLALOLA";
-	int pos = 0;
-	for (i = 0; i < strlen(str2); i++) {
-		struct kmp_result r = advance(str2[i], pos, table);
-		pos = r.pos;
-
-		printf("Pos after %c: %d\n", str2[i], pos);
-		if (r.match) {
-			printf("Matched.\n");
-		}
-	}
-	*/
-
 	struct queue q = alloc_queue(20);
 
-	char f1[] = "main.c";
-	char f2[] = "consumer.c";
-	char f3[] = "kmp.h";
+	char str2[] = ".";
 
-	enqueue(f1, &q);
-	enqueue(f2, &q);
-	enqueue(f3, &q);
-	enqueue(NULL, &q);
+	struct produce_arg parg = {&q, str2, 1};
+	struct consume_arg carg = {&q, &table};
+	
+	pthread_t t1;
+	pthread_t t2;
 
-	struct consume_arg arg = {&q, &table};
-	consume(&arg);
+	pthread_create(&t1, NULL, &produce, &parg);
+	pthread_create(&t2, NULL, &consume, &carg);
+
+	pthread_join(t1, NULL);
+	pthread_join(t2, NULL);
 
 	free_queue(&q);
 	free_table(table);

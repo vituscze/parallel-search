@@ -1,6 +1,7 @@
 #include <fcntl.h>
 #include <pthread.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <unistd.h>
 
@@ -9,7 +10,7 @@
 #include "kmp.h"
 #include "queue.h"
 
-void
+void *
 consume(void *arg_)
 {
 	struct consume_arg *arg = arg_;
@@ -21,11 +22,10 @@ consume(void *arg_)
 	for (;;) {
 		char *path = dequeue(q);
 		if (!path) {
-			return;
+			return (NULL);
 		}
 
 		int pos = 0;
-		int found = 0;
 		struct kmp_result r;
 
 		int file = open(path, O_RDONLY);
@@ -34,6 +34,7 @@ consume(void *arg_)
 			fprintf(stderr, "Cannot open %s.\n", path);
 			pthread_mutex_unlock(&io_lock);
 
+			free(path);
 			continue;
 		}
 
@@ -47,16 +48,16 @@ consume(void *arg_)
 					pthread_mutex_lock(&io_lock);
 					printf("%s\n", path);
 					pthread_mutex_unlock(&io_lock);
-					found = 1;
 					break;
 				}
 			}
 
-			if (found) {
+			if (r.match) {
 				break;
 			}
 		}
 
+		free(path);
 		close(file);
 	}
 }

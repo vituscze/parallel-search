@@ -12,7 +12,7 @@ struct consume_arg
 	struct kmp_table* t;
 };
 
-void
+void *
 consume(void *queue);
 
 #endif /* CONSUMER_H_ */
