@@ -11,16 +11,16 @@
 int
 main(int argc, char **argv)
 {
-	char str[] = "char *";
+	if (argc < 3) {
+		return 1;
+	}
 
-	struct kmp_table table = alloc_table(str);
+	struct kmp_table table = alloc_table(argv[1]);
 	fill_table(table);
 
 	struct queue q = alloc_queue(20);
 
-	char str2[] = ".";
-
-	struct produce_arg parg = {&q, str2, 1};
+	struct produce_arg parg = {&q, argv[2], 1};
 	struct consume_arg carg = {&q, &table};
 	
 	pthread_t t1;
