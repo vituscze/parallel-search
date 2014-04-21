@@ -50,6 +50,7 @@ dequeue(struct queue *q)
 	}
 	res = q->data[q->start++];
 	q->start %= q->capacity;
+	q->size--;
 	pthread_cond_broadcast(&q->full);
 	pthread_mutex_unlock(&q->queue_lock);
 	return (res);
