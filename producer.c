@@ -12,6 +12,8 @@
 #include "io_lock.h"
 #include "queue.h"
 
+#include <err.h>
+
 void *
 produce(void *arg_)
 {
@@ -32,7 +34,7 @@ traverse(char *path, struct queue *q)
 	DIR *d = opendir(path);
 	if (!d) {
 		pthread_mutex_lock(&io_lock);
-		fprintf(stderr, "Cannot open directory %s.\n", path);
+		fprintf(stderr, "Cannot open directory %s\n", path);
 		pthread_mutex_unlock(&io_lock);
 		return;
 	}
@@ -69,4 +71,6 @@ traverse(char *path, struct queue *q)
 
 		enqueue(new_path, q);
 	}
+
+	closedir(d);
 }

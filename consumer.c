@@ -31,7 +31,7 @@ consume(void *arg_)
 		int file = open(path, O_RDONLY);
 		if (file == -1) {
 			pthread_mutex_lock(&io_lock);
-			fprintf(stderr, "Cannot open %s.\n", path);
+			fprintf(stderr, "Cannot open %s\n", path);
 			pthread_mutex_unlock(&io_lock);
 
 			free(path);
