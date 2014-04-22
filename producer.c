@@ -12,8 +12,6 @@
 #include "io_lock.h"
 #include "queue.h"
 
-#include <err.h>
-
 void *
 produce(void *arg_)
 {
