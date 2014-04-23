@@ -9,12 +9,13 @@ alloc_queue(int capacity)
 	struct queue q =
 	    { NULL
 	    , 0
-	    , capacity
+	    , 0
 	    , 0
 	    , PTHREAD_MUTEX_INITIALIZER
 	    , PTHREAD_COND_INITIALIZER
 	    , PTHREAD_COND_INITIALIZER
 	    };
+	q.capacity = capacity;
 	q.data = malloc(sizeof(void *) * capacity);
 	return (q);
 }

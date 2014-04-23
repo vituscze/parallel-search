@@ -21,14 +21,18 @@ consume(void *arg_)
 
 	for (;;) {
 		char *path = dequeue(q);
+
+		int pos = 0;
+		int file;
+		int bytes_read = 0;
+
+		struct kmp_result r;
+
 		if (!path) {
 			return (NULL);
 		}
 
-		int pos = 0;
-		struct kmp_result r;
-
-		int file = open(path, O_RDONLY);
+		file = open(path, O_RDONLY);
 		if (file == -1) {
 			pthread_mutex_lock(&io_lock);
 			fprintf(stderr, "Cannot open %s\n", path);
@@ -38,7 +42,6 @@ consume(void *arg_)
 			continue;
 		}
 
-		int bytes_read = 0;
 		while ((bytes_read = read(file, buffer, BUFFER_SIZE)) > 0) {
 			int i;
 			for (i = 0; i < bytes_read; i++) {

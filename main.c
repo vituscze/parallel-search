@@ -29,11 +29,21 @@ usage(const char *progname)
 int
 main(int argc, char **argv)
 {
+	int i;
 	int opt;
 	int threads = -1;
 	int size;
+	
 	char *needle = NULL;
 	char *dir = NULL;
+
+	struct kmp_table table;
+	struct queue q;
+	struct produce_arg parg;
+	struct consume_arg carg;
+
+	pthread_t producer;
+	pthread_t *consumers;
 
 	opterr = 0;
 
@@ -73,22 +83,25 @@ main(int argc, char **argv)
 
 	if (threads <= 0) {
 		threads = 1;
-		// TODO: Figure out number of cores.
+		/* TODO: Figure out number of cores.
+		 */
 	}
 
-	struct kmp_table table = alloc_table(needle);
+	table = alloc_table(needle);
 	fill_table(table);
 
-	struct queue q = alloc_queue(INITIAL_CAPACITY);
+	q = alloc_queue(INITIAL_CAPACITY);
 
-	struct produce_arg parg = {&q, dir, threads};
-	struct consume_arg carg = {&q, &table};
+	parg.q = &q;
+	parg.path = dir;
+	parg.consumer_count = threads;
+
+	carg.q = &q;
+	carg.t = &table;
 	
-	pthread_t producer;
-	pthread_t *consumers = malloc(sizeof(pthread_t) * threads);
+	consumers = malloc(sizeof(pthread_t) * threads);
 
 	pthread_create(&producer, NULL, &produce, &parg);
-	int i;
 	for (i = 0; i < threads; i++) {
 		pthread_create(consumers + i, NULL, &consume, &carg);
 	}
