@@ -75,7 +75,9 @@ traverse(char *path, struct queue *q)
 			continue;
 		}
 
-		enqueue(new_path, q);
+		if (S_ISREG(stat.st_mode)) {
+			enqueue(new_path, q);
+		}
 	}
 
 	checked_closedir(d);
