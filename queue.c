@@ -7,17 +7,17 @@
 struct queue
 alloc_queue(int capacity)
 {
-	struct queue q =
-	    { NULL
-	    , 0
-	    , 0
-	    , 0
-	    , PTHREAD_MUTEX_INITIALIZER
-	    , PTHREAD_COND_INITIALIZER
-	    , PTHREAD_COND_INITIALIZER
+	struct queue q = {
+		NULL,
+	    0,
+	    0,
+	    0,
+	    PTHREAD_MUTEX_INITIALIZER,
+	    PTHREAD_COND_INITIALIZER,
+	    PTHREAD_COND_INITIALIZER
 	    };
 	q.capacity = capacity;
-	q.data = checked_malloc(sizeof(void *) * capacity);
+	q.data = checked_malloc(sizeof (void *) * capacity);
 	return (q);
 }
 
@@ -57,4 +57,3 @@ dequeue(struct queue *q)
 	checked_unlock(&q->queue_lock);
 	return (res);
 }
-

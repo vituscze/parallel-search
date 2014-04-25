@@ -10,7 +10,7 @@
 #include "producer.h"
 #include "queue.h"
 
-#define INITIAL_CAPACITY 5
+#define	INITIAL_CAPACITY 5
 
 void
 usage(const char *progname)
@@ -34,7 +34,7 @@ main(int argc, char **argv)
 	int opt;
 	int threads = -1;
 	int size;
-	
+
 	char *needle = NULL;
 	char *dir = NULL;
 
@@ -53,13 +53,13 @@ main(int argc, char **argv)
 				break;
 			case 's':
 				size = strlen(optarg) + 1;
-				needle = checked_malloc(sizeof(char) * size);
+				needle = checked_malloc(sizeof (char) * size);
 				strncpy(needle, optarg, size);
 				needle[size - 1] = 0;
 				break;
 			case 'd':
 				size = strlen(optarg) + 1;
-				dir = checked_malloc(sizeof(char) * size);
+				dir = checked_malloc(sizeof (char) * size);
 				strncpy(dir, optarg, size);
 				dir[size - 1] = 0;
 				break;
@@ -76,14 +76,15 @@ main(int argc, char **argv)
 	}
 
 	if (!dir) {
-		dir = checked_malloc(sizeof(char) * 2);
+		dir = checked_malloc(sizeof (char) * 2);
 		dir[0] = '.';
 		dir[1] = 0;
 	}
 
 	if (threads <= 0) {
 		threads = 1;
-		/* TODO: Figure out number of cores.
+		/*
+		 * TODO: Figure out number of cores.
 		 */
 	}
 
@@ -98,8 +99,8 @@ main(int argc, char **argv)
 
 	carg.q = &q;
 	carg.t = &table;
-	
-	consumers = checked_malloc(sizeof(pthread_t) * threads);
+
+	consumers = checked_malloc(sizeof (pthread_t) * threads);
 
 	checked_thread_create(&producer, NULL, &produce, &parg);
 	for (i = 0; i < threads; i++) {
@@ -117,6 +118,5 @@ main(int argc, char **argv)
 	free(needle);
 	free(dir);
 
-	return 0;
+	return (0);
 }
-

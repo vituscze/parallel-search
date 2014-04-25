@@ -43,7 +43,8 @@ consume(void *arg_)
 			continue;
 		}
 
-		while ((bytes_read = checked_read(file, buffer, BUFFER_SIZE)) > 0) {
+		while ((bytes_read =
+		    checked_read(file, buffer, BUFFER_SIZE)) > 0) {
 			int i;
 			for (i = 0; i < bytes_read; i++) {
 				r = advance(buffer[i], pos, *t);
@@ -65,4 +66,3 @@ consume(void *arg_)
 		checked_close(file);
 	}
 }
-

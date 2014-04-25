@@ -45,7 +45,8 @@ checked_cond_destroy(pthread_cond_t *c)
 {
 	int err = pthread_cond_destroy(c);
 	if (err != 0) {
-		errx(1, "Failed to destroy a condition variable: %s", strerror(err));
+		errx(1, "Failed to destroy a condition variable: %s",
+		    strerror(err));
 	}
 }
 
@@ -72,7 +73,8 @@ checked_wait(pthread_cond_t *c, pthread_mutex_t *m)
 {
 	int err = pthread_cond_wait(c, m);
 	if (err != 0) {
-		errx(1, "Failed to wait for a condition variable: %s", strerror(err));
+		errx(1, "Failed to wait for a condition variable: %s",
+		    strerror(err));
 	}
 }
 
@@ -81,7 +83,8 @@ checked_broadcast(pthread_cond_t *c)
 {
 	int err = pthread_cond_broadcast(c);
 	if (err != 0) {
-		errx(1, "Failed to broadcast a condition variable: %s", strerror(err));
+		errx(1, "Failed to broadcast a condition variable: %s",
+		    strerror(err));
 	}
 }
 
@@ -123,7 +126,7 @@ struct dirent *
 checked_readdir(DIR *d)
 {
 	struct dirent *e;
-	
+
 	errno = 0;
 	e = readdir(d);
 	if (e == NULL && errno != 0) {
@@ -174,4 +177,3 @@ checked_close(int fd)
 		errx(1, "Failed to close a file: %s", strerror(errno));
 	}
 }
-

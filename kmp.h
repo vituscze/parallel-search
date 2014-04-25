@@ -1,9 +1,9 @@
 #ifndef KMP_H_
-#define KMP_H_
+#define	KMP_H_
 
-/* 
+/*
  * Data structure KMP algorithm.
- * 
+ *
  * Stores needle as well as error function table.
  */
 struct kmp_table
@@ -73,4 +73,3 @@ struct kmp_result
 advance(char c, int pos, struct kmp_table table);
 
 #endif /* KMP_H_ */
-

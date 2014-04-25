@@ -14,7 +14,7 @@ alloc_table(const char *str)
 	result.str_size = strlen(str);
 
 	assert(result.str_size > 0);
-	result.err = checked_malloc(sizeof(int) * result.str_size);
+	result.err = checked_malloc(sizeof (int) * result.str_size);
 
 	return (result);
 }
@@ -41,11 +41,9 @@ fill_table(struct kmp_table table)
 	while (pos < table.str_size) {
 		if (table.str[pos - 1] == table.str[ext]) {
 			table.err[pos++] = ++ext;
-		}
-		else if (ext > 0) {
+		} else if (ext > 0) {
 			ext = table.err[ext];
-		}
-		else {
+		} else {
 			table.err[pos++] = 0;
 		}
 	}

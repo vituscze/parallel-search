@@ -1,5 +1,5 @@
 #ifndef CHECKED_H_
-#define CHECKED_H_
+#define	CHECKED_H_
 
 #include <dirent.h>
 #include <pthread.h>
@@ -63,4 +63,3 @@ void
 checked_close(int fd);
 
 #endif /* CHECKED_H_ */
-

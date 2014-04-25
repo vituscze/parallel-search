@@ -63,11 +63,11 @@ traverse(char *path, struct queue *q)
 		 * for \0.
 		 */
 		full = p_size + extra + 2;
-		new_path = checked_malloc(sizeof(char) * full);
+		new_path = checked_malloc(sizeof (char) * full);
 		len = snprintf(new_path, full, "%s/%s",
 		    path, entry->d_name);
 		new_path[len] = 0;
-		
+
 		checked_lstat(new_path, &stat);
 		if (S_ISDIR(stat.st_mode)) {
 			traverse(new_path, q);
