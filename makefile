@@ -1,6 +1,6 @@
 PROG=psearch
 
-OBJ=queue.o kmp.o producer.o consumer.o io_lock.o main.o
+OBJ=queue.o kmp.o producer.o consumer.o io_lock.o checked.o main.o
 
 LFLAGS=-lpthread
 WFLAGS=-Wall -pedantic

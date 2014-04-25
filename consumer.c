@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include "checked.h"
 #include "consumer.h"
 #include "io_lock.h"
 #include "kmp.h"
@@ -32,25 +33,25 @@ consume(void *arg_)
 			return (NULL);
 		}
 
-		file = open(path, O_RDONLY);
+		file = checked_open(path, O_RDONLY);
 		if (file == -1) {
-			pthread_mutex_lock(&io_lock);
+			checked_lock(&io_lock);
 			fprintf(stderr, "Cannot open %s\n", path);
-			pthread_mutex_unlock(&io_lock);
+			checked_unlock(&io_lock);
 
 			free(path);
 			continue;
 		}
 
-		while ((bytes_read = read(file, buffer, BUFFER_SIZE)) > 0) {
+		while ((bytes_read = checked_read(file, buffer, BUFFER_SIZE)) > 0) {
 			int i;
 			for (i = 0; i < bytes_read; i++) {
 				r = advance(buffer[i], pos, *t);
 				pos = r.pos;
 				if (r.match) {
-					pthread_mutex_lock(&io_lock);
+					checked_lock(&io_lock);
 					printf("%s\n", path);
-					pthread_mutex_unlock(&io_lock);
+					checked_unlock(&io_lock);
 					break;
 				}
 			}
@@ -61,7 +62,7 @@ consume(void *arg_)
 		}
 
 		free(path);
-		close(file);
+		checked_close(file);
 	}
 }
 

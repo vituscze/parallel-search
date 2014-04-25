@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "checked.h"
 #include "kmp.h"
 
 struct kmp_table
@@ -13,7 +14,7 @@ alloc_table(const char *str)
 	result.str_size = strlen(str);
 
 	assert(result.str_size > 0);
-	result.err = malloc(sizeof(int) * result.str_size);
+	result.err = checked_malloc(sizeof(int) * result.str_size);
 
 	return (result);
 }

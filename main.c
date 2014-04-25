@@ -4,6 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "checked.h"
 #include "consumer.h"
 #include "kmp.h"
 #include "producer.h"
@@ -45,8 +46,6 @@ main(int argc, char **argv)
 	pthread_t producer;
 	pthread_t *consumers;
 
-	opterr = 0;
-
 	while ((opt = getopt(argc, argv, "n:s:d:")) != -1) {
 		switch (opt) {
 			case 'n':
@@ -54,17 +53,18 @@ main(int argc, char **argv)
 				break;
 			case 's':
 				size = strlen(optarg) + 1;
-				needle = malloc(sizeof(char) * size);
+				needle = checked_malloc(sizeof(char) * size);
 				strncpy(needle, optarg, size);
 				needle[size - 1] = 0;
 				break;
 			case 'd':
 				size = strlen(optarg) + 1;
-				dir = malloc(sizeof(char) * size);
+				dir = checked_malloc(sizeof(char) * size);
 				strncpy(dir, optarg, size);
 				dir[size - 1] = 0;
 				break;
 			case '?':
+			default:
 				usage(argv[0]);
 				return (1);
 		}
@@ -76,7 +76,7 @@ main(int argc, char **argv)
 	}
 
 	if (!dir) {
-		dir = malloc(sizeof(char) * 2);
+		dir = checked_malloc(sizeof(char) * 2);
 		dir[0] = '.';
 		dir[1] = 0;
 	}
@@ -99,16 +99,16 @@ main(int argc, char **argv)
 	carg.q = &q;
 	carg.t = &table;
 	
-	consumers = malloc(sizeof(pthread_t) * threads);
+	consumers = checked_malloc(sizeof(pthread_t) * threads);
 
-	pthread_create(&producer, NULL, &produce, &parg);
+	checked_thread_create(&producer, NULL, &produce, &parg);
 	for (i = 0; i < threads; i++) {
-		pthread_create(consumers + i, NULL, &consume, &carg);
+		checked_thread_create(consumers + i, NULL, &consume, &carg);
 	}
 
-	pthread_join(producer, NULL);
+	checked_thread_join(producer, NULL);
 	for (i = 0; i < threads; i++) {
-		pthread_join(consumers[i], NULL);
+		checked_thread_join(consumers[i], NULL);
 	}
 
 	free_queue(&q);
