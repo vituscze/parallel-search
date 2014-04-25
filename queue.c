@@ -8,7 +8,7 @@ struct queue
 alloc_queue(int capacity)
 {
 	struct queue q = {
-		NULL,
+	    NULL,
 	    0,
 	    0,
 	    0,
