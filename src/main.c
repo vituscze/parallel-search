@@ -34,6 +34,7 @@ main(int argc, char **argv)
 	int opt;
 	int threads = -1;
 	int size;
+	int cpu;
 
 	char *needle = NULL;
 	char *dir = NULL;
@@ -82,10 +83,12 @@ main(int argc, char **argv)
 	}
 
 	if (threads <= 0) {
-		threads = 1;
-		/*
-		 * TODO: Figure out number of cores.
-		 */
+		cpu = sysconf(_SC_NPROCESSORS_ONLN);
+		if (cpu <= 1) {
+			threads = 1;
+		} else {
+			threads = cpu;
+		}
 	}
 
 	table = alloc_table(needle);
