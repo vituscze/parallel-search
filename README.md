@@ -21,11 +21,11 @@ To prevent mixing up output to stdout and stderr, a global lock is used for sync
 
 Brief overview of source files:
 
- * main.c - parses command line arguments, launches the producer and all consumers and then simply waits for them to finish
- * kmp.c - implementation of the KMP algorithm, `advance` function searches the input character by character and can be used from multiple threads
- * queue.c - implementation of concurrent queue, when the queue is empty, any attempt to retrieve an element will block the calling thread until a new element is added and vice versa - adding elements to full queue will block until an element is removed
- * producer.c - implementation of the producer
- * consumer.c - implementation of the consumer
- * checked.c - variants of various function that explicitly check for any error conditions and terminate the program if a non-recoverable error is detected
- * io_lock.c - single global mutex for I/O synchronization
+ * `main.c` - parses command line arguments, launches the producer and all consumers and then simply waits for them to finish
+ * `kmp.c` - implementation of the KMP algorithm, `advance` function searches the input character by character and can be used from multiple threads
+ * `queue.c` - implementation of concurrent queue, when the queue is empty, any attempt to retrieve an element will block the calling thread until a new element is added and vice versa - adding elements to full queue will block until an element is removed
+ * `producer.c` - implementation of the producer
+ * `consumer.c` - implementation of the consumer
+ * `checked.c` - variants of various function that explicitly check for any error conditions and terminate the program if a non-recoverable error is detected
+ * `io_lock.c` - single global mutex for I/O synchronization
 
