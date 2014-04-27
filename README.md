@@ -15,7 +15,7 @@ Code
 
 `psearch` is implemented using producer-consumer pattern. At the start of the program, one producer thread is created that searches for all regular files in starting directory and its subdirectories (symbolic links are not followed); those files (precisely path to them) are added to a concurrent queue. After that, a number of consumer threads (given by `-n` or `sysconf`) are created that repeatedly retrieve paths from the queue and then search the content of those files for the required pattern (using KMP algorithm).
 
-Once the producer finished its task, a NULL is added to the queue for every consumer. When a consumer picks up a NULL, it terminates. The main thread then simply waits for the producer and all consumers to finish and then terminates as well.
+Once the producer finished its task, a `NULL` is added to the queue for every consumer. When a consumer picks up a `NULL`, it terminates. The main thread then simply waits for the producer and all consumers to finish and then terminates as well.
 
 To prevent mixing up output to stdout and stderr, a global lock is used for synchronization.
 
