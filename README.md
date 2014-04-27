@@ -6,7 +6,7 @@ Usage
 
     psearch [-n<number of threads>] -s<search pattern> [-d<starting directory>]
 
-`psearch` checks all files in starting directory (specified by `-d`) and its subdirectories looking for a search pattern (specified by `-s`). If such pattern is found, the file is reported to stdout. If a file or directory could not be opened (e.g. the user didn't have necessary rights), it is reported to stderr. The files may be searched by more than one thread (this number can be adjusted by `-n`) and the program makes no guarantees about the order in which the files are reported to stdout.
+`psearch` checks all files in starting directory (specified by `-d`) and its subdirectories looking for a search pattern (specified by `-s`). If such pattern is found, the file is reported to stdout. The pattern cannot be empty. If a file or directory could not be opened (e.g. the user didn't have necessary rights), it is reported to stderr. The files may be searched by more than one thread (this number can be adjusted by `-n`) and the program makes no guarantees about the order in which the files are reported to stdout.
 
 If starting directory is not specified, the program uses `.`. Number of threads can also be left unspecified, in which case the current number of active CPUs is used (given by `sysconf`). The search pattern is mandatory.
 

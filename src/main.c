@@ -20,6 +20,7 @@ usage(const char *progname)
 	    "\n"
 	    "Recursively searches all files in directory for\n"
 	    "a specified pattern and reports them to stdout.\n"
+	    "The pattern cannot be empty string.\n"
 	    "\n"
 	    "If thread count is not specified, number of cores\n"
 	    "is used instead.\n"
@@ -71,7 +72,7 @@ main(int argc, char **argv)
 		}
 	}
 
-	if (!needle) {
+	if (!needle || strlen(needle) <= 0) {
 		usage(argv[0]);
 		return (1);
 	}
