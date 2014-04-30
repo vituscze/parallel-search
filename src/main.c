@@ -34,7 +34,6 @@ main(int argc, char **argv)
 	int i;
 	int opt;
 	int threads = -1;
-	int size;
 	int cpu;
 
 	char *needle = NULL;
@@ -54,16 +53,10 @@ main(int argc, char **argv)
 				threads = atoi(optarg);
 				break;
 			case 's':
-				size = strlen(optarg) + 1;
-				needle = checked_malloc(sizeof (char) * size);
-				strncpy(needle, optarg, size);
-				needle[size - 1] = 0;
+				needle = checked_strdup(optarg);
 				break;
 			case 'd':
-				size = strlen(optarg) + 1;
-				dir = checked_malloc(sizeof (char) * size);
-				strncpy(dir, optarg, size);
-				dir[size - 1] = 0;
+				dir = checked_strdup(optarg);
 				break;
 			case '?':
 			default:
@@ -94,10 +87,10 @@ main(int argc, char **argv)
 		}
 	}
 
-	table = alloc_table(needle);
-	fill_table(table);
+	alloc_table(&table, needle);
+	fill_table(&table);
 
-	q = alloc_queue(INITIAL_CAPACITY);
+	alloc_queue(&q, INITIAL_CAPACITY);
 
 	parg.q = &q;
 	parg.path = dir;
@@ -119,7 +112,7 @@ main(int argc, char **argv)
 	}
 
 	free_queue(&q);
-	free_table(table);
+	free_table(&table);
 	free(consumers);
 	free(needle);
 	free(dir);

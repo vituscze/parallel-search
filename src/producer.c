@@ -37,9 +37,7 @@ traverse(char *path, struct queue *q)
 	int p_size;
 
 	if (!d) {
-		checked_lock(&io_lock);
-		fprintf(stderr, "Cannot open directory %s\n", path);
-		checked_unlock(&io_lock);
+		fprintf_ts(stderr, "Cannot open directory %s\n", path);
 		return;
 	}
 
@@ -76,7 +74,7 @@ traverse(char *path, struct queue *q)
 		}
 
 		if (S_ISREG(stat.st_mode)) {
-			enqueue(new_path, q);
+			enqueue(q, new_path);
 		}
 	}
 

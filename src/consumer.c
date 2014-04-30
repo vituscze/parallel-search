@@ -35,9 +35,7 @@ consume(void *arg_)
 
 		file = checked_open(path, O_RDONLY);
 		if (file == -1) {
-			checked_lock(&io_lock);
-			fprintf(stderr, "Cannot open %s\n", path);
-			checked_unlock(&io_lock);
+			fprintf_ts(stderr, "Cannot open %s\n", path);
 
 			free(path);
 			continue;
@@ -47,12 +45,10 @@ consume(void *arg_)
 		    checked_read(file, buffer, BUFFER_SIZE)) > 0) {
 			int i;
 			for (i = 0; i < bytes_read; i++) {
-				r = advance(buffer[i], pos, *t);
+				r = advance(buffer[i], pos, t);
 				pos = r.pos;
 				if (r.match) {
-					checked_lock(&io_lock);
-					printf("%s\n", path);
-					checked_unlock(&io_lock);
+					printf_ts("%s\n", path);
 					break;
 				}
 			}
