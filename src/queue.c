@@ -4,21 +4,16 @@
 #include "checked.h"
 #include "queue.h"
 
-struct queue
-alloc_queue(int capacity)
+void
+alloc_queue(struct queue *q, int capacity)
 {
-	struct queue q = {
-	    NULL,
-	    0,
-	    0,
-	    0,
-	    PTHREAD_MUTEX_INITIALIZER,
-	    PTHREAD_COND_INITIALIZER,
-	    PTHREAD_COND_INITIALIZER
-	    };
-	q.capacity = capacity;
-	q.data = checked_malloc(sizeof (void *) * capacity);
-	return (q);
+	q->data = checked_malloc(sizeof (void *) * capacity);
+	q->start = 0;
+	q->capacity = capacity;
+	q->size = 0;
+	checked_mutex_init(&q->queue_lock);
+	checked_cond_init(&q->empty);
+	checked_cond_init(&q->full);
 }
 
 void
@@ -31,15 +26,15 @@ free_queue(struct queue *q)
 }
 
 void
-enqueue(void *elem, struct queue *q)
+enqueue(struct queue *q, void *elem)
 {
 	checked_lock(&q->queue_lock);
 	while (q->size == q->capacity) {
 		checked_wait(&q->full, &q->queue_lock);
 	}
 	q->data[(q->start + q->size++) % q->capacity] = elem;
-	checked_broadcast(&q->empty);
 	checked_unlock(&q->queue_lock);
+	checked_broadcast(&q->empty);
 }
 
 void *
@@ -53,7 +48,7 @@ dequeue(struct queue *q)
 	res = q->data[q->start++];
 	q->start %= q->capacity;
 	q->size--;
-	checked_broadcast(&q->full);
 	checked_unlock(&q->queue_lock);
+	checked_broadcast(&q->full);
 	return (res);
 }

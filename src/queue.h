@@ -26,8 +26,8 @@ struct queue
 /*
  * Allocates a new queue of given capacity.
  */
-struct queue
-alloc_queue(int capacity);
+void
+alloc_queue(struct queue *q, int capacity);
 
 /*
  * Frees a queue allocated by alloc_queue.
@@ -41,7 +41,7 @@ free_queue(struct queue *q);
  * to block until the element can be added.
  */
 void
-enqueue(void *elem, struct queue *q);
+enqueue(struct queue *q, void *elem);
 
 /*
  * Removes and returns the first element of the
