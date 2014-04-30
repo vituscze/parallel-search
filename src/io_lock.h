@@ -2,16 +2,19 @@
 #define	IO_LOCK_H_
 
 #include <pthread.h>
+#include <stdio.h>
 
 /*
- * Synchronization for IO.
+ * Thread safe versions of printf and fprintf.
  *
- * This mutex is used to synchronize writes
- * from multiple consumers reporting both
- * successful matches and inaccessible files
- * and also a producer reporting inaccessible
- * directories.
+ * The safety is guaranteed by locking a global
+ * mutex inside io_lock.c.
  */
-extern pthread_mutex_t io_lock;
+
+int
+fprintf_ts(FILE *f, const char *fmt, ...);
+
+int
+printf_ts(const char *fmt, ...);
 
 #endif /* IO_LOCK_H_ */
