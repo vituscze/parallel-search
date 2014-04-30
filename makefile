@@ -23,6 +23,6 @@ ${BUILDDIR}/%.o: ${SRCDIR}/%.c
 	${CC} ${CFLAGS} ${FLAGS} -c -o $@ $<
 
 clean:
-	rm -f -- ${PROG} ${OBJ}
+	rm -rf -- ${PROG} ${OBJ}
 	rmdir -- ${BUILDDIR}
 
