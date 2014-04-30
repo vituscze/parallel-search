@@ -27,6 +27,12 @@ void
 checked_thread_join(pthread_t t, void **retval);
 
 void
+checked_mutex_init(pthread_mutex_t *m);
+
+void
+checked_cond_init(pthread_cond_t *c);
+
+void
 checked_mutex_destroy(pthread_mutex_t *m);
 
 void
@@ -45,6 +51,9 @@ void
 checked_broadcast(pthread_cond_t *c);
 
 /* Checked memory allocation. */
+
+char *
+checked_strdup(const char *s);
 
 void *
 checked_malloc(size_t size);

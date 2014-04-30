@@ -32,6 +32,25 @@ checked_thread_join(pthread_t t, void **retval)
 }
 
 void
+checked_mutex_init(pthread_mutex_t *m)
+{
+	int err = pthread_mutex_init(m, NULL);
+	if (err != 0) {
+		errx(1, "Failed to initialize mutex: %s", strerror(err));
+	}
+}
+
+void
+checked_cond_init(pthread_cond_t *c)
+{
+	int err = pthread_cond_init(c, NULL);
+	if (err != 0) {
+		errx(1, "Failed to initialize condition variable: %s",
+		    strerror(err));
+	}
+}
+
+void
 checked_mutex_destroy(pthread_mutex_t *m)
 {
 	int err = pthread_mutex_destroy(m);
@@ -86,6 +105,17 @@ checked_broadcast(pthread_cond_t *c)
 		errx(1, "Failed to broadcast a condition variable: %s",
 		    strerror(err));
 	}
+}
+
+char *
+checked_strdup(const char *s)
+{
+	char *ns = strdup(s);
+	if (ns == NULL) {
+		errx(1, "Failed to duplicate a string: %s", strerror(errno));
+	}
+
+	return (ns);
 }
 
 void *
