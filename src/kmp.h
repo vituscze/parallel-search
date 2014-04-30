@@ -19,8 +19,8 @@ struct kmp_table
  *
  * The string cannot be empty.
  */
-struct kmp_table
-alloc_table(const char *str);
+void
+alloc_table(struct kmp_table *table, const char *str);
 
 /*
  * Frees any memory allocated by alloc_table.
@@ -30,7 +30,7 @@ alloc_table(const char *str);
  * allocated, it should be freed separately.
  */
 void
-free_table(struct kmp_table table);
+free_table(struct kmp_table *table);
 
 /*
  * Prepare the error table function for a given string.
@@ -39,7 +39,7 @@ free_table(struct kmp_table table);
  * by alloc_table.
  */
 void
-fill_table(struct kmp_table table);
+fill_table(struct kmp_table *table);
 
 /*
  * Data structure for result of KMP algorithm.
@@ -70,6 +70,6 @@ struct kmp_result
  * table from outside.
  */
 struct kmp_result
-advance(char c, int pos, struct kmp_table table);
+advance(char c, int pos, struct kmp_table *table);
 
 #endif /* KMP_H_ */
