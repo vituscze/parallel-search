@@ -10,13 +10,13 @@
 #include "producer.h"
 #include "queue.h"
 
-#define	INITIAL_CAPACITY 5
+#define	INITIAL_CAPACITY 50
 
 void
 usage(const char *progname)
 {
 	fprintf(stderr,
-	    "Usage: %s -n<thread count> -s<needle> -d<directory>\n"
+	    "Usage: %s [-n<thread count>] -s<needle> [-d<directory>]\n"
 	    "\n"
 	    "Recursively searches all files in directory for\n"
 	    "a specified pattern and reports them to stdout.\n"
@@ -87,6 +87,8 @@ main(int argc, char **argv)
 		cpu = sysconf(_SC_NPROCESSORS_ONLN);
 		if (cpu <= 1) {
 			threads = 1;
+		} else if (cpu >= 20) {
+			threads = 20;
 		} else {
 			threads = cpu;
 		}
