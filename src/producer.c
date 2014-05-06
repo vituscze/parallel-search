@@ -22,7 +22,7 @@ produce(void *arg_)
 	traverse(arg->path, arg->q);
 
 	for (i = 0; i < arg->consumer_count; i++) {
-		enqueue(NULL, arg->q);
+		enqueue(arg->q, NULL);
 	}
 
 	return (NULL);
