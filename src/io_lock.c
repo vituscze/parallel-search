@@ -22,19 +22,3 @@ fprintf_ts(FILE *f, const char *fmt, ...)
 
 	return (res);
 }
-
-int
-printf_ts(const char *fmt, ...)
-{
-	int res;
-
-	va_list args;
-
-	va_start(args, fmt);
-	checked_lock(&io_lock);
-	res = vprintf(fmt, args);
-	checked_unlock(&io_lock);
-	va_end(args);
-
-	return (res);
-}

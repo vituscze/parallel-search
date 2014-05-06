@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 /*
- * Thread safe versions of printf and fprintf.
+ * Thread safe version of fprintf.
  *
  * The safety is guaranteed by locking a global
  * mutex inside io_lock.c.
@@ -13,8 +13,5 @@
 
 int
 fprintf_ts(FILE *f, const char *fmt, ...);
-
-int
-printf_ts(const char *fmt, ...);
 
 #endif /* IO_LOCK_H_ */
