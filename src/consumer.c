@@ -48,7 +48,7 @@ consume(void *arg_)
 				r = advance(buffer[i], pos, t);
 				pos = r.pos;
 				if (r.match) {
-					fprintf_ts(stdin, "%s\n", path);
+					fprintf_ts(stdout, "%s\n", path);
 					break;
 				}
 			}
