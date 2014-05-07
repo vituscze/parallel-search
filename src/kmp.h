@@ -57,9 +57,10 @@ struct kmp_result
  * Consumes one character and changes the position
  * inside needle accordingly.
  *
+ * table is helper structure described above.
+ * res is pointer to the result of this operation.
  * c is character to be consumed.
  * pos is current position inside the needle.
- * table is helper structure described above.
  *
  * The result specifies new position and whether the
  * new character caused the needle to match.
@@ -69,7 +70,7 @@ struct kmp_result
  * kmp_table provided that no-one is changing the
  * table from outside.
  */
-struct kmp_result
-advance(char c, int pos, struct kmp_table *table);
+void
+advance(struct kmp_table *table, struct kmp_result *res, char c, int pos);
 
 #endif /* KMP_H_ */

@@ -45,7 +45,7 @@ consume(void *arg_)
 		    checked_read(file, buffer, BUFFER_SIZE)) > 0) {
 			int i;
 			for (i = 0; i < bytes_read; i++) {
-				r = advance(buffer[i], pos, t);
+				advance(t, &r, buffer[i], pos);
 				pos = r.pos;
 				if (r.match) {
 					fprintf_ts(stdout, "%s\n", path);

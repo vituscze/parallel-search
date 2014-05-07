@@ -45,21 +45,17 @@ fill_table(struct kmp_table *table)
 	}
 }
 
-struct kmp_result
-advance(char c, int pos, struct kmp_table *table)
+void
+advance(struct kmp_table *table, struct kmp_result *res, char c, int pos)
 {
-	struct kmp_result result;
-
 	while (pos >= 0 && table->str[pos] != c) {
 		pos = table->err[pos];
 	}
 
-	result.pos = ++pos;
-	result.match = pos == table->str_size;
+	res->pos = ++pos;
+	res->match = pos == table->str_size;
 
-	if (result.match) {
-		result.pos = table->err[pos - 1] + 1;
+	if (res->match) {
+		res->pos = table->err[pos - 1] + 1;
 	}
-
-	return (result);
 }
